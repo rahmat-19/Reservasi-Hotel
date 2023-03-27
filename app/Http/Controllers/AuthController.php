@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Pelanggan;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth;;
 
 class AuthController extends Controller
 {
@@ -21,23 +21,20 @@ class AuthController extends Controller
     public function authenticate(Request $request)
     {
         $credentials = $request->validate([
-            'email' => ['required', 'min:5', 'max:24'],
-            'password' => ['required', 'min:6', 'max:16'],
+            'email' => ['required', 'email'],
+            'password' => ['required'],
         ]);
+
 
         if (Auth::attempt($credentials)) {
-            $user = $request->session()->regenerate();
-            /* if () {
-                # code...
-            } */
+            $request->session()->regenerate();
 
-            // return redirect()->intended('/');
-            return redirect(Route('olt.index'));
+            return redirect()->intended('/');
         }
 
-        return back()->with([
-            'invalid' => 'The provided credentials do not match our records.',
-        ]);
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->onlyInput('email');
     }
 
     public function registrasi(Request $request)
@@ -66,7 +63,7 @@ class AuthController extends Controller
 
         $result = $user->save();
         if ($result) {
-            return redirect(Route('login.authentication'))->with('success', 'You Have Successfully Created an Account');
+            return redirect(Route('login'))->with('success', 'You Have Successfully Created an Account');
         }
     }
 }

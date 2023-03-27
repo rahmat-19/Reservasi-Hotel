@@ -5,11 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Karyawan;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
     public function index()
     {
+        $datas = User::whereNotIn('level', ['admin', 'pelanggan'])->get();
+        $title = 'Users';
+        return view('dashboard.users.index', compact('datas', "title"));
     }
 
     public function detail(User $user)
@@ -31,7 +35,7 @@ class UserController extends Controller
             'alamat' => 'required|string|',
             'jabatan' => 'required|string|in:administrator,bendahara,pemilik',
             'password' => 'required|min:6',
-            'foto' => 'nullable|image|mimes:jpg,jpeg,png,svg,gif|max:2048',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png,svg|max:2048',
         ]);
 
         /* Sotre data user */
@@ -49,26 +53,38 @@ class UserController extends Controller
         $karyawan->no_hp = $validationData['no_hp'];
         $karyawan->alamat = $validationData['alamat'];
         $karyawan->jabatan = $validationData['jabatan'];
+        if ($request->hasFile('foto')) {
+            # code...
+        }
         $user->karyawans()->save($karyawan);
 
         $result = $user->save();
         if ($result) {
-            return redirect()->back()->with('success', 'You Have Successfully Created an Account.');
+            return redirect(Route('user.index'))->with('success', 'You Have Successfully Created an Account.');
         } else {
-            return redirect()->back()->with('error', 'You Have Failed Create an Account.');
+            return redirect(Route('user.index'))->with('error', 'You Have Failed Create an Account.');
         }
     }
 
     public function update(Request $request, Karyawan $karyawan)
     {
-        $request->validate();
-
-        return redirect()->back()->with('success', 'User updated successfully.');
+        $validationData = $request->validate([
+            'nama_lengka' => 'required|string',
+            'alamat' => 'required|string|',
+            'no_hp' => 'nullable|unique:pelanggans|string|min:11|max:14',
+            'jabatan' => 'required|string|in:administrator,bendahara,pemilik'
+        ]);
+        $result = $karyawan->update($validationData);
+        if ($result) {
+            return redirect(Route('user.index'))->with('success', 'User Updated Successfully.');
+        } else {
+            return redirect(Route('user.index'))->with('error', 'User Updated Failed.');
+        }
     }
 
-    public function delete(User $user)
+    public function delete($id)
     {
-        $result = User::destroy($user->id);
+        $result = User::destroy($id);
         if ($result) {
             return redirect()->back()->with('success', 'User Delete Successfully.');
         } else {

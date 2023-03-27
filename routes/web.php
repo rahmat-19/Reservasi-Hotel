@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BeritaController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\ObjekWisataController;
 use App\Http\Controllers\PenginapanController;
@@ -26,10 +27,11 @@ use Illuminate\Support\Facades\Route;
 // });
 // Route::get('/', [ObjekWisataController::class, 'index'])->name('objek-wisata.index');
 Route::middleware('auth')->group(function () {
+    // Route::get('/', [DashboardController::class, 'index'])->name('home');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
-Route::middleware('checkrole:admin')->group(function () {
+Route::middleware('chackrole:admin')->group(function () {
     // Routes that require an 'admin' role
     Route::prefix('user')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('user.index');

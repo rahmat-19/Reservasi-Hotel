@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Karyawan extends Model
 {
     use HasFactory;
-    protected $with = ['users'];
+    // protected $with = ['users'];
     protected $guarded = [];
 
 
