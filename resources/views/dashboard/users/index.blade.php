@@ -10,6 +10,7 @@
     <!-- Card Header - Dropdown -->
     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
         <h6 class="m-0 font-weight-bold text-primary">Data Users</h6>
+        <a href="{{Route('user.create')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Create User</a>
     </div>
     <!-- Card Body -->
     <div class="card-body">
@@ -23,7 +24,7 @@
                         <th>Handphone</th>
                         <th>Alamat</th>
                         <th>Jabatan</th>
-                        <th></th>
+                        <th>Aksi</th>
                     </tr>
                 </thead>
 
@@ -36,7 +37,16 @@
                         <td>{{$data->karyawans->no_hp}}</td>
                         <td>{{$data->karyawans->alamat}}</td>
                         <td>{{$data->karyawans->jabatan}}</td>
-                        <td></td>
+                        <td class="d-flex justify-content-between">
+                            <a href="{{Route('user.edit', $data->id)}}" class="border-0 badge bg-warning">Edit</a>
+                            <form action="{{Route('user.delete', $data->id)}}" method="post" class="d-inline">
+
+                                @method('delete')
+                                @csrf
+                                <button type="submit" class="border-0 badge bg-danger" onclick="return confirm('are you sure ?')"></span>Delete</button>
+
+                            </form>
+                        </td>
                     </tr>
                     @endforeach
                     @else

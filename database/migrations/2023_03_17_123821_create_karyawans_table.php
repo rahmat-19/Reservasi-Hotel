@@ -16,7 +16,7 @@ return new class extends Migration
     {
         Schema::create('karyawans', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(User::class)->references('id')->on('users')->onDelete('cascade');
             $table->string('nama_lengka');
             $table->text('alamat');
             $table->string('no_hp');

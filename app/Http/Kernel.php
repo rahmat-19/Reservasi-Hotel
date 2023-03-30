@@ -44,22 +44,22 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
-        'admin' => [
-            'auth',
-            'chackrole:admin', // Apply the middleware to the 'admin' group
-        ],
-        'bendahara' => [
-            'auth',
-            'chackrole:bendahara', // Apply the middleware to the 'bendahara' group
-        ],
-        'pemilik' => [
-            'auth',
-            'chackrole:pemilik', // Apply the middleware to the 'bendahara' group
-        ],
-        'pelanggan' => [
-            'auth',
-            'chackrole:pelanggan', // Apply the middleware to the 'bendahara' group
-        ],
+        // 'admin' => [
+        //     'auth',
+        //     'chackrole:admin', // Apply the middleware to the 'admin' group
+        // ],
+        // 'bendahara' => [
+        //     'auth',
+        //     'chackrole:bendahara', // Apply the middleware to the 'bendahara' group
+        // ],
+        // 'pemilik' => [
+        //     'auth',
+        //     'chackrole:pemilik', // Apply the middleware to the 'bendahara' group
+        // ],
+        // 'pelanggan' => [
+        //     'auth',
+        //     'chackrole:pelanggan', // Apply the middleware to the 'bendahara' group
+        // ],
     ];
 
     /**
@@ -80,6 +80,6 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'chackrole' => \App\Http\Middleware\ChackRole::class,
+        'role' => \App\Http\Middleware\ChackRole::class,
     ];
 }

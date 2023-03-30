@@ -13,7 +13,7 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="{{Route('dashboard')}}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
@@ -25,6 +25,13 @@
     <div class="sidebar-heading">
         Interface
     </div>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{Route('user.index')}}">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Users</span></a>
+    </li>
+
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">

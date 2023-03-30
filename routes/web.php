@@ -28,20 +28,20 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', [ObjekWisataController::class, 'index'])->name('objek-wisata.index');
 Route::middleware('auth')->group(function () {
     // Route::get('/', [DashboardController::class, 'index'])->name('home');
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
-Route::middleware('chackrole:admin')->group(function () {
+Route::middleware('role:admin')->group(function () {
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     // Routes that require an 'admin' role
     Route::prefix('user')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('user.index');
-        Route::get('/create', [UserController::class, 'create'])->name('user.create');
-        Route::get('/{user}', [UserController::class, 'detail'])->name('user.detail');
-        Route::get('/edit/{user}', [UserController::class, 'edit'])->name('user.edit');
-        // Route::get('/create', [UserController::class, 'create'])->name('user.create');
-        Route::post('/', [UserController::class, 'store'])->name('user.store');
-        Route::put('/edit/{user}', [UserController::class, 'update'])->name('user.update');
-        Route::delete('/{user}', [UserController::class, 'delete'])->name('user.delete');
+        Route::get('create', [UserController::class, 'create'])->name('user.create');
+        Route::get('{user}', [UserController::class, 'detail'])->name('user.detail');
+        Route::get('edit/{user}', [UserController::class, 'edit'])->name('user.edit');
+        Route::post('store', [UserController::class, 'store'])->name('user.store');
+        Route::put('edit/{user}', [UserController::class, 'update'])->name('user.update');
+        Route::delete('{user}', [UserController::class, 'delete'])->name('user.delete');
     });
 
     Route::prefix('category-wisata')->group(function () {

@@ -28,14 +28,8 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
+        dd($user);
     }
-
-    // public function create()
-    // {
-    //     dd('ok');
-    //     $title = 'Create';
-    //     return view('dashboard.users.create', compact('title'));
-    // }
 
     public function store(Request $request)
     {
@@ -54,6 +48,7 @@ class UserController extends Controller
         /* Sotre data user */
         $user = new User();
         $user->email = $validationData['email'];
+        $user->level = $validationData['level'];
         $user->password = bcrypt($validationData['password']);
         if ($request->aktif) {
             $user->aktif = $validationData['aktif'];
@@ -66,9 +61,9 @@ class UserController extends Controller
         $karyawan->no_hp = $validationData['no_hp'];
         $karyawan->alamat = $validationData['alamat'];
         $karyawan->jabatan = $validationData['jabatan'];
-        if ($request->hasFile('foto')) {
-            # code...
-        }
+        // if ($request->hasFile('foto')) {
+        //     # code...
+        // }
         $user->karyawans()->save($karyawan);
 
         $result = $user->save();
@@ -95,10 +90,12 @@ class UserController extends Controller
         }
     }
 
-    public function delete($id)
+    public function delete(User $user)
     {
-        $result = User::destroy($id);
+        $result = $user->destroy($user->id);
+
         if ($result) {
+            Karyawan::destroy($user->karyawans->id);
             return redirect()->back()->with('success', 'User Delete Successfully.');
         } else {
             return redirect()->back()->with('error', 'User Delete Failed.');

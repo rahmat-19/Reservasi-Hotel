@@ -15,11 +15,13 @@ class ChackRole
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next, $role)
+
+    public function handle(Request $request, Closure $next, ...$roles)
     {
-        if (!Auth::check() || Auth::user()->level !== $role) {
-            return abort(403, 'Unauthorized action.');
+        if (!Auth::check() || !in_array(Auth::user()->level, $roles)) {
+            abort(403, 'Unauthorized action.');
         }
+
         return $next($request);
     }
 }
