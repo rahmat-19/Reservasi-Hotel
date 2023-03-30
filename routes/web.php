@@ -35,9 +35,11 @@ Route::middleware('chackrole:admin')->group(function () {
     // Routes that require an 'admin' role
     Route::prefix('user')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('user.index');
+        Route::get('/create', [UserController::class, 'create'])->name('user.create');
         Route::get('/{user}', [UserController::class, 'detail'])->name('user.detail');
         Route::get('/edit/{user}', [UserController::class, 'edit'])->name('user.edit');
-        Route::post('/', [UserController::class, 'create'])->name('user.create');
+        // Route::get('/create', [UserController::class, 'create'])->name('user.create');
+        Route::post('/', [UserController::class, 'store'])->name('user.store');
         Route::put('/edit/{user}', [UserController::class, 'update'])->name('user.update');
         Route::delete('/{user}', [UserController::class, 'delete'])->name('user.delete');
     });

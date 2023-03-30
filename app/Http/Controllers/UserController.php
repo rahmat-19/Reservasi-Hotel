@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+
+    public function create()
+    {
+        $title = 'Create';
+        return view('dashboard.users.create', compact('title'));
+    }
     public function index()
     {
         $datas = User::whereNotIn('level', ['admin', 'pelanggan'])->get();
@@ -24,7 +30,14 @@ class UserController extends Controller
     {
     }
 
-    public function create(Request $request)
+    // public function create()
+    // {
+    //     dd('ok');
+    //     $title = 'Create';
+    //     return view('dashboard.users.create', compact('title'));
+    // }
+
+    public function store(Request $request)
     {
         $validationData = $request->validate([
             'nama' => 'required|string',
