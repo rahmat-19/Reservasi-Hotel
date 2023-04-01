@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         \App\Models\Karyawan::create([
-            'nama_lengka' => 'admin',
+            'nama_lengkap' => 'admin',
             'no_hp' =>  "0000000000000",
             'alamat' => 'bumi',
             'jabatan' => 'administrator',

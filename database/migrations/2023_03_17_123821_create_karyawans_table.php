@@ -17,7 +17,7 @@ return new class extends Migration
         Schema::create('karyawans', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->references('id')->on('users')->onDelete('cascade');
-            $table->string('nama_lengka');
+            $table->string('nama_lengkap');
             $table->text('alamat');
             $table->string('no_hp');
             $table->enum('jabatan', ['administrator', 'bendahara', 'pemilik']);

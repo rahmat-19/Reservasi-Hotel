@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('nama_wisata');
             $table->text('deskripsi');
             $table->string('fasilitas');
-            $table->string('foto');
+            $table->string('foto')->nullable();
             $table->timestamps();
         });
     }

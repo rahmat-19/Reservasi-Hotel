@@ -28,7 +28,11 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        dd($user);
+        $title = 'Update';
+        $data = $user;
+        $enumLevel = [['key' => 'admin', 'value' => 'Admin'], ['key' => 'pemilik', 'value' => 'Pemilik'], ['key' => 'bendahara', 'value' => 'Bendahara']];
+        $enumJabatan = [['key' => 'administrator', 'value' => 'Administrator'], ['key' => 'bendahara', 'value' => 'Bendahara'], ['key' => 'pemilik', 'value' => 'Pemilik']];
+        return view('dashboard.users.update', compact('title', 'data', 'enumLevel', 'enumJabatan'));
     }
 
     public function store(Request $request)
@@ -57,13 +61,11 @@ class UserController extends Controller
 
         /* Store data pelanggan */
         $karyawan = new Karyawan();
-        $karyawan->nama_lengka = $validationData['nama'];
+        $karyawan->nama_lengkap = $validationData['nama'];
         $karyawan->no_hp = $validationData['no_hp'];
         $karyawan->alamat = $validationData['alamat'];
         $karyawan->jabatan = $validationData['jabatan'];
-        // if ($request->hasFile('foto')) {
-        //     # code...
-        // }
+
         $user->karyawans()->save($karyawan);
 
         $result = $user->save();
@@ -74,16 +76,34 @@ class UserController extends Controller
         }
     }
 
-    public function update(Request $request, Karyawan $karyawan)
+    public function update(Request $request, User $user)
     {
         $validationData = $request->validate([
-            'nama_lengka' => 'required|string',
-            'alamat' => 'required|string|',
+            'nama_lengkap' => 'string',
+            'level' => 'string|in:admin,bendahar,pemilik',
+            'aktif' => 'nullable|integer',
             'no_hp' => 'nullable|unique:pelanggans|string|min:11|max:14',
-            'jabatan' => 'required|string|in:administrator,bendahara,pemilik'
+            'alamat' => 'string|',
+            'jabatan' => 'string|in:administrator,bendahara,pemilik',
+            'password' => 'nullable|min:6',
         ]);
-        $result = $karyawan->update($validationData);
-        if ($result) {
+        if ($request->email != $user->email) {
+            $ruls['email'] = 'email:rfc,dns|unique:users';
+        }
+
+        $validationData['password'] = bcrypt($validationData['password']);
+
+        $updateUser = $user->update($validationData);
+
+        if ($updateUser) {
+            $karyawan = $user->karyawans;
+            $karyawan->nama_lengkap = $validationData['nama_lengkap'];
+            $karyawan->no_hp = $validationData['no_hp'];
+            $karyawan->alamat = $validationData['alamat'];
+            $karyawan->jabatan = $validationData['jabatan'];
+
+            $karyawan->save();
+
             return redirect(Route('user.index'))->with('success', 'User Updated Successfully.');
         } else {
             return redirect(Route('user.index'))->with('error', 'User Updated Failed.');

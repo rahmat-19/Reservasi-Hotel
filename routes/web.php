@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KaryawanController;
+use App\Http\Controllers\KategoriWisataController;
 use App\Http\Controllers\ObjekWisataController;
 use App\Http\Controllers\PenginapanController;
 use App\Http\Controllers\UserController;
@@ -45,12 +46,12 @@ Route::middleware('role:admin')->group(function () {
     });
 
     Route::prefix('category-wisata')->group(function () {
-        Route::get('/', [KategoriWisata::class, 'index'])->name('kwst.index');
-        Route::get('/{kwst}', [KategoriWisata::class, 'detail'])->name('kwst.detail');
-        Route::get('/edit/{kwst}', [KategoriWisata::class, 'edit'])->name('kwst.edit');
-        Route::post('/', [KategoriWisata::class, 'create'])->name('kwst.create');
-        Route::put('/edit{kwst}', [KategoriWisata::class, 'update'])->name('kwst.update');
-        Route::delete('/', [KategoriWisata::class, 'delete'])->name('kwst.delete');
+        Route::get('/', [KategoriWisataController::class, 'index'])->name('kwst.index');
+        Route::get('/{kwst}', [KategoriWisataController::class, 'detail'])->name('kwst.detail');
+        Route::get('/edit/{kwst}', [KategoriWisataController::class, 'edit'])->name('kwst.edit');
+        Route::post('/', [KategoriWisataController::class, 'create'])->name('kwst.create');
+        Route::put('/edit{kwst}', [KategoriWisataController::class, 'update'])->name('kwst.update');
+        Route::delete('/', [KategoriWisataController::class, 'delete'])->name('kwst.delete');
     });
 
     Route::prefix('category-berita')->group(function () {
@@ -77,7 +78,7 @@ Route::middleware('role:admin')->group(function () {
         Route::get('/edit/{berita}', [BeritaController::class, 'edit'])->name('berita.edit');
         Route::post('/', [BeritaController::class, 'create'])->name('berita.create');
         Route::put('/edit/{berita}', [BeritaController::class, 'update'])->name('berita.update');
-        Route::delete('/{berita}', [BeritaController::class, 'destroy'])->name('objwst.destroy');
+        Route::delete('/{berita}', [BeritaController::class, 'destroy'])->name('berita.destroy');
     });
 
     Route::prefix('karyawan')->group(function () {
@@ -86,7 +87,7 @@ Route::middleware('role:admin')->group(function () {
         Route::get('/edit/{karyawan}', [KaryawanController::class, 'edit'])->name('karyawan.edit');
         Route::post('/', [KaryawanController::class, 'create'])->name('karyawan.create');
         Route::put('/edit/{karyawan}', [KaryawanController::class, 'update'])->name('karyawan.update');
-        Route::delete('/{karyawan}', [KaryawanController::class, 'destroy'])->name('objwst.destroy');
+        Route::delete('/{karyawan}', [KaryawanController::class, 'destroy'])->name('karyawan.destroy');
     });
 
     Route::prefix('penginapan')->group(function () {
@@ -95,7 +96,7 @@ Route::middleware('role:admin')->group(function () {
         Route::get('/edit/{penginapan}', [PenginapanController::class, 'edit'])->name('penginapan.edit');
         Route::post('/', [PenginapanController::class, 'create'])->name('penginapan.create');
         Route::put('/edit/{penginapan}', [PenginapanController::class, 'update'])->name('penginapan.update');
-        Route::delete('/{penginapan}', [PenginapanController::class, 'destroy'])->name('objwst.destroy');
+        Route::delete('/{penginapan}', [PenginapanController::class, 'destroy'])->name('penginapan.destroy');
     });
 });
 

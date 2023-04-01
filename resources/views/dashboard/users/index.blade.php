@@ -32,7 +32,7 @@
                     @if(count($datas) !== 0)
                     @foreach($datas as $data)
                     <tr>
-                        <td>{{$data->karyawans->nama_lengka}}</td>
+                        <td>{{$data->karyawans->nama_lengkap}}</td>
                         <td>{{$data->email}}</td>
                         <td>{{$data->karyawans->no_hp}}</td>
                         <td>{{$data->karyawans->alamat}}</td>

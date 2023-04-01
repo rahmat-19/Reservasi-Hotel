@@ -2,12 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\KategoriWisata;
 use App\Models\ObjekWisata;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class ObjekWisataController extends Controller
 {
+
+    public function index()
+    {
+        $datas = ObjekWisata::all();
+        $title = 'Objek Wisata';
+        $kategoriWst = KategoriWisata::all();
+        return view('dashboard.objek-wisata.index', compact('datas', 'title', 'kategoriWst'));
+    }
     public function create(Request $request)
     {
         $validateDate = $request->validate([
@@ -19,8 +28,8 @@ class ObjekWisataController extends Controller
         ]);
 
         if ($request->hasFile('foto')) {
-            $image = $request->file('fotp');
-            $validateDate['foto'] = $image->hashName();
+            $image = $request->file('foto');
+            $validateDate['foto'] = 'objekwisata/' . $image->hashName();
         }
 
         $result = ObjekWisata::create($validateDate);
@@ -29,9 +38,9 @@ class ObjekWisataController extends Controller
                 $image = $request->file('foto');
                 $image->storeAs('public/objekwisata', $image->hashName());
             }
-            return redirect(Route('objek-wisata.index'))->with('success', 'You Have Successfully Created an News.');
+            return redirect(Route('objwst.index'))->with('success', 'You Have Successfully Created an News.');
         } else {
-            return redirect(Route('objek-wisata.index'))->with('success', 'You Have Failed Create an News.');
+            return redirect(Route('objwst.index'))->with('success', 'You Have Failed Create an News.');
         }
     }
 
@@ -63,12 +72,12 @@ class ObjekWisataController extends Controller
         }
     }
 
-    public function delete(ObjekWisata $objekWisata)
+    public function destroy(ObjekWisata $objwst)
     {
-        $result = $objekWisata->delete();
+        $result = $objwst->delete();
         if ($result) {
-            if ($objekWisata->foto) {
-                Storage::delete('public/o$objekwisata/' . $objekWisata->foto);
+            if ($objwst->foto) {
+                Storage::delete('public/objekwisata/' . $objwst->foto);
             }
 
             return redirect()->back()->with('success', 'Berita Delete Successfully.');

@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class KategoriWisataController extends Controller
 {
+
+    public function edit(KategoriWisata $kwst)
+    {
+        return response()->json($kwst);
+    }
     public function create(Request $request)
     {
         $validateDate = $request->validate([
@@ -21,17 +26,17 @@ class KategoriWisataController extends Controller
         }
     }
 
-    public function update(KategoriWisata $kategoriWisata, Request $request)
+    public function update(KategoriWisata $kwst, Request $request)
     {
         $validateDate = $request->validate([
-            'kategori_wisata' => 'required'
+            'kategori_wisata' => 'nullable'
         ]);
 
-        $result = $kategoriWisata->update($validateDate);
+        $result = $kwst->update($validateDate);
         if ($result) {
-            return redirect(Route('kategori-wisata.index'))->with('success', 'Kategori Wisata Updated Successfully.');
+            return redirect(Route('kwst.index'))->with('success', 'Kategori Wisata Updated Successfully.');
         } else {
-            return redirect(Route('kategori-wisata.index'))->with('error', 'Kategori Wisata Updated Failed.');
+            return redirect(Route('kwst.index'))->with('error', 'Kategori Wisata Updated Failed.');
         }
     }
 
@@ -43,5 +48,11 @@ class KategoriWisataController extends Controller
         } else {
             return redirect()->back()->with('error', 'Kategori Wisata Delete Failed.');
         }
+    }
+    public function index()
+    {
+        $datas = KategoriWisata::all();
+        $title = 'Kategori Wisata';
+        return view('dashboard.kategori-wisata.index', compact('datas', 'title'));
     }
 }
