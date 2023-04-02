@@ -17,6 +17,14 @@ class ObjekWisataController extends Controller
         $kategoriWst = KategoriWisata::all();
         return view('dashboard.objek-wisata.index', compact('datas', 'title', 'kategoriWst'));
     }
+
+    public function edit(ObjekWisata $objwst)
+    {
+        $data = $objwst;
+        $title = 'Edit';
+        $kategoriWst = KategoriWisata::all();
+        return view('dashboard.objek-wisata.update', compact('data', 'title', 'kategoriWst'));
+    }
     public function create(Request $request)
     {
         $validateDate = $request->validate([
@@ -44,7 +52,7 @@ class ObjekWisataController extends Controller
         }
     }
 
-    public function update(ObjekWisata $objekWisata, Request $request)
+    public function update(ObjekWisata $objwst, Request $request)
     {
         $validateData = $request->validate([
             'kategori_wisata_id' => 'required',
@@ -56,19 +64,19 @@ class ObjekWisataController extends Controller
 
         if ($request->hasFile('foto')) {
             $image = $request->file('foto');
-            $validateData['foto'] = $image->hashName();
+            $validateData['foto'] = 'objekwisata/' . $image->hashName();
+            Storage::delete('public/' . $objwst->foto);
         }
 
-        $result = $objekWisata->update($validateData);
+        $result = $objwst->update($validateData);
         if ($result) {
             if ($request->hasFile('foto')) {
                 $image = $request->file('foto');
-                Storage::delete('public/objekwisata/' . $objekWisata->foto);
                 $image->storeAs('public/objekwisata', $image->hashName());
             }
-            return redirect(Route('objek-wisata.index'))->with('success', 'You Have Successfully Updated an News.');
+            return redirect(Route('objwst.index'))->with('success', 'You Have Successfully Updated an News.');
         } else {
-            return redirect(Route('objek-wisata.index'))->with('success', 'You Have Failed Updated an News.');
+            return redirect(Route('objwst.index'))->with('success', 'You Have Failed Updated an News.');
         }
     }
 
@@ -77,7 +85,7 @@ class ObjekWisataController extends Controller
         $result = $objwst->delete();
         if ($result) {
             if ($objwst->foto) {
-                Storage::delete('public/objekwisata/' . $objwst->foto);
+                Storage::delete('public/' . $objwst->foto);
             }
 
             return redirect()->back()->with('success', 'Berita Delete Successfully.');

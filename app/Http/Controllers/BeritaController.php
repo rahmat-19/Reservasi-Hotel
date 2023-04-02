@@ -3,12 +3,33 @@
 namespace App\Http\Controllers;
 
 use App\Models\Berita;
+use App\Models\KategoriBerita;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class BeritaController extends Controller
 {
-    public function create(Request $request)
+
+    public function index()
+    {
+        $title = 'Berita';
+        $datas = Berita::all();
+        return view('dashboard.berita.index', compact('title', 'datas'));
+    }
+    public function create()
+    {
+        $kategoriBrt = KategoriBerita::all();
+        $title = 'Create';
+        return view('dashboard.berita.create', compact('title', 'kategoriBrt'));
+    }
+    public function edit(Berita $berita)
+    {
+        $data = $berita;
+        $kategoriBrt = KategoriBerita::all();
+        $title = 'Edit';
+        return view('dashboard.berita.update', compact('title', 'kategoriBrt', 'data'));
+    }
+    public function store(Request $request)
     {
         $validateDate = $request->validate([
             'kategori_berita_id' => 'required',
@@ -20,7 +41,7 @@ class BeritaController extends Controller
 
         if ($request->hasFile('foto')) {
             $image = $request->file('foto');
-            $validateDate['foto'] = $image->hashName();
+            $validateDate['foto'] = 'berita/' . $image->hashName();
         }
 
         $result = Berita::create($validateDate);
@@ -46,15 +67,15 @@ class BeritaController extends Controller
         ]);
 
         if ($request->hasFile('foto')) {
-            $image = $request->file('image');
-            $validateData['foto'] = $image->hashName();
+            $image = $request->file('foto');
+            $validateData['foto'] = 'berita/' . $image->hashName();
+            Storage::delete('public/' . $berita->foto);
         }
 
         $result = $berita->update($validateData);
         if ($result) {
             if ($request->hasFile('foto')) {
                 $image = $request->file('foto');
-                Storage::delete('public/berita/' . $berita->foto);
                 $image->storeAs('public/berita', $image->hashName());
             }
             return redirect(Route('berita.index'))->with('success', 'You Have Successfully Updated an News.');
@@ -63,12 +84,12 @@ class BeritaController extends Controller
         }
     }
 
-    public function delete(Berita $berita)
+    public function destroy(Berita $berita)
     {
         $result = $berita->delete();
         if ($result) {
             if ($berita->foto) {
-                Storage::delete('public/berita/' . $berita->foto);
+                Storage::delete('public/' . $berita->foto);
             }
 
             return redirect()->back()->with('success', 'Berita Delete Successfully.');

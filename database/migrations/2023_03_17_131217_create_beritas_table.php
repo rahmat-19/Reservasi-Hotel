@@ -19,8 +19,8 @@ return new class extends Migration
             $table->foreignIdFor(KategoriBerita::class);
             $table->string('judul');
             $table->text('berita');
-            $table->dateTime('tgl_post');
-            $table->string('foto');
+            $table->date('tgl_post');
+            $table->string('foto')->nullable();
             $table->timestamps();
         });
     }

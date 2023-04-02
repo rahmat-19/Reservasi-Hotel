@@ -52,7 +52,8 @@
                                 <td>{{$data->kategori_wisatas->kategori_wisata}}</td>
                                 <td>{!! $data->fasilitas !!}</td>
                                 <td class="d-flex justify-content-evenly">
-                                    <button type="button" class="border-0 badge bg-warning" data-url="{{Route('kwst.edit', $data->id)}}" id="editkwst" data-bs-toggle="modal" data-bs-target="#edit-kategori-wisata">Edit</button>
+                                    <!-- <button type="button" class="border-0 badge bg-warning" data-url="{{Route('objwst.edit', $data->id)}}" id="editkwst" data-bs-toggle="modal" data-bs-target="#edit-kategori-wisata">Edit</button> -->
+                                    <a href="{{Route('objwst.edit', $data->id)}}" class="border-0 badge bg-warning text-decoration-none">Edit</a>
                                     <form action="{{Route('objwst.destroy', $data->id)}}" method="post" class="d-inline">
 
                                         @method('delete')

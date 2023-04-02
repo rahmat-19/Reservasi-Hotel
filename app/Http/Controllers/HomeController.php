@@ -14,6 +14,6 @@ class HomeController extends Controller
         $beritas = Berita::all();
         $objWisata = ObjekWisata::paginate(10);
 
-        return view('home.index', compact($title, $beritas, $objWisata));
+        return view('home.index', compact('title'));
     }
 }

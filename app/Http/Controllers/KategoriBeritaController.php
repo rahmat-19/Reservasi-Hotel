@@ -2,15 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Berita;
 use App\Models\KategoriBerita;
 use Illuminate\Http\Request;
 
 class KategoriBeritaController extends Controller
 {
+
+    public function index()
+    {
+        $datas = KategoriBerita::all();
+        $title = 'Kategori Berita';
+        return view('dashboard.kategori-berita.index', compact('datas', 'title'));
+    }
+
+    public function edit(KategoriBerita $kbrt)
+    {
+        return response()->json($kbrt);
+    }
     public function create(Request $request)
     {
         $validateDate = $request->validate([
-            'kategori_wisata' => 'required',
+            'kategori_berita' => 'required',
         ]);
 
         $result = KategoriBerita::create($validateDate);
@@ -21,17 +34,17 @@ class KategoriBeritaController extends Controller
         }
     }
 
-    public function update(KategoriBerita $kategoriBerita, Request $request)
+    public function update(KategoriBerita $kbrt, Request $request)
     {
         $validateDate = $request->validate([
             'kategori_berita' => 'required'
         ]);
 
-        $result = $kategoriBerita->update($validateDate);
+        $result = $kbrt->update($validateDate);
         if ($result) {
-            return redirect(Route('kategori-berita.index'))->with('success', 'Kategori Berita Updated Successfully.');
+            return redirect(Route('kbrt.index'))->with('success', 'Kategori Berita Updated Successfully.');
         } else {
-            return redirect(Route('kategori-berita.index'))->with('error', 'Kategori Berita Updated Failed.');
+            return redirect(Route('kbrt.index'))->with('error', 'Kategori Berita Updated Failed.');
         }
     }
 

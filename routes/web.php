@@ -3,7 +3,9 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KaryawanController;
+use App\Http\Controllers\KategoriBeritaController;
 use App\Http\Controllers\KategoriWisataController;
 use App\Http\Controllers\ObjekWisataController;
 use App\Http\Controllers\PenginapanController;
@@ -23,10 +25,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-// Route::get('/', [ObjekWisataController::class, 'index'])->name('objek-wisata.index');
+
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::middleware('auth')->group(function () {
     // Route::get('/', [DashboardController::class, 'index'])->name('home');
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -55,12 +55,12 @@ Route::middleware('role:admin')->group(function () {
     });
 
     Route::prefix('category-berita')->group(function () {
-        Route::get('/', [KategoriBerita::class, 'index'])->name('kbrt.index');
-        Route::get('/{kbrt}', [KategoriBerita::class, 'detail'])->name('kbrt.detail');
-        Route::get('/edit/{kbrt}', [KategoriBerita::class, 'edit'])->name('kbrt.edit');
-        Route::post('/', [KategoriBerita::class, 'create'])->name('kbrt.create');
-        Route::put('/edit{kbrt}', [KategoriBerita::class, 'update'])->name('kbrt.update');
-        Route::delete('/', [KategoriBerita::class, 'delete'])->name('kbrt.delete');
+        Route::get('/', [KategoriBeritaController::class, 'index'])->name('kbrt.index');
+        Route::get('/{kbrt}', [KategoriBeritaController::class, 'detail'])->name('kbrt.detail');
+        Route::get('/edit/{kbrt}', [KategoriBeritaController::class, 'edit'])->name('kbrt.edit');
+        Route::post('/', [KategoriBeritaController::class, 'create'])->name('kbrt.create');
+        Route::put('/edit{kbrt}', [KategoriBeritaController::class, 'update'])->name('kbrt.update');
+        Route::delete('/', [KategoriBeritaController::class, 'delete'])->name('kbrt.delete');
     });
 
     Route::prefix('objek-wisata')->group(function () {
@@ -74,9 +74,10 @@ Route::middleware('role:admin')->group(function () {
 
     Route::prefix('berita')->group(function () {
         Route::get('/', [BeritaController::class, 'index'])->name('berita.index');
+        Route::get('/create', [BeritaController::class, 'create'])->name('berita.create');
         Route::get('/{berita}', [BeritaController::class, 'detail'])->name('berita.detail');
         Route::get('/edit/{berita}', [BeritaController::class, 'edit'])->name('berita.edit');
-        Route::post('/', [BeritaController::class, 'create'])->name('berita.create');
+        Route::post('/store', [BeritaController::class, 'store'])->name('berita.store');
         Route::put('/edit/{berita}', [BeritaController::class, 'update'])->name('berita.update');
         Route::delete('/{berita}', [BeritaController::class, 'destroy'])->name('berita.destroy');
     });
