@@ -5,7 +5,7 @@
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div>
-        <div class="sidebar-brand-text mx-2">Rahmat Hotel</div>
+        <div class="sidebar-brand-text mx-2">Reservasi</div>
     </a>
 
     <!-- Divider -->
@@ -43,6 +43,7 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Wisata:</h6>
                 <a class="collapse-item" href="{{Route('objwst.index')}}">Objek Wisata</a>
+                <a class="collapse-item" href="#">Paket Wisata</a>
                 <a class="collapse-item" href="{{Route('kwst.index')}}">Kategori Wisata</a>
             </div>
         </div>
